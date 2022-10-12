@@ -165,6 +165,13 @@ unsigned long timeToFire()
   }
 
   // Convert degrees of timing delay to microseconds:
+  //                      s
+  //                  60 ---
+  //       12            min               us
+  // ej: ------ rev x ------- x 1.000.000 ----- = 2500 us
+  //      360            rev                s  
+  //                     ---
+  //                     min
   unsigned long timeToFireMicros = (unsigned long)((delayAngle/360.0)*(60.0/engineRPM)*1000000);
 
   return timeToFireMicros;
