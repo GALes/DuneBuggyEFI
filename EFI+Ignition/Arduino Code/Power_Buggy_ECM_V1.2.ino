@@ -147,6 +147,20 @@ unsigned long timeToFire()
   delayAngle = initialTiming;
 
   // Subtract coil dwell time and program delay time from timing delay:
+  //               1000 us + 200 us
+  //              ------------------
+  //                         us
+  //                1000000 ---
+  //                          s                °
+  // ej: 12 ° - ----------------------- x 360 --- = 6.24 °
+  //                         s                rev
+  //                     60 ---
+  //                        min
+  //                 ---------------
+  //                    800 rev
+  //                        ---
+  //                        min
+  //
   delayAngle = delayAngle - ((coilDwellTime + programDelayTime)/1000000.0)/(60.0/engineRPM)*360.0;
   
   // Subtract centrifugal advance from delay:
@@ -168,8 +182,8 @@ unsigned long timeToFire()
   //                      s
   //                  60 ---
   //       12            min               us
-  // ej: ------ rev x -------- x 1.000.000 ----- = 2500 us
-  //      360             rev                s  
+  // ej: ------ rev x -------- x 1.000.000 --- = 2500 us
+  //      360             rev               s  
   //                  800 ---
   //                      min
   unsigned long timeToFireMicros = (unsigned long)((delayAngle/360.0)*(60.0/engineRPM)*1000000);
